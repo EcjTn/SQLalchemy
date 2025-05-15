@@ -4,22 +4,15 @@ from typing import List, Optional, Annotated
 from pydantic import BaseModel
 from sqlmodel import Session
 from sqlalchemy.orm import Session as SQLAlchemySession
-import os
-
 import models
 from database import engine, SessionLocal
-
-
-
 from schemas import UserCreate
 from schemas import VipCreate
 
 # FastAPI Setup
 app = FastAPI(docs_url=None, redoc_url=None)
 
-
 models.Base.metadata.create_all(bind=engine)
-
 
 def get_db():
     db = SessionLocal()
@@ -27,9 +20,6 @@ def get_db():
         yield db
     finally:
         db.close()
-
-
-#db = Session = Depends(get_db) Most important line
 
 db_session = Depends(get_db)
 
@@ -46,35 +36,10 @@ async def reg_user(user: UserCreate, db: Session = Depends(get_db)):
 
     return new_user
     
-    
-    
-    
 @app.get("/users/all", status_code=200)
 async def users_all(db: Session = Depends(get_db)):
     users = db.query(models.PlayerBase).all()
     return users
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -84,14 +49,3 @@ async def root():
         status_code=404,
         detail="Main page."
     )
-
-
-
-
-
-
-
-
-
-
-

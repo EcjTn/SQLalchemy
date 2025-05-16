@@ -46,6 +46,6 @@ async def users_all(db: Session = Depends(get_db)):
 @app.get('/')
 async def root():
     raise HTTPException(
-        status_code=404,
+        status_code=200,
         detail="Main page."
     )
